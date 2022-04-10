@@ -13,11 +13,12 @@ import matplotlib.pyplot as plt
 
 
 # Сначала определим на каком устройстве будем работать - GPU или CPU
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+#device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+device =  torch.device('cuda')if torch.cuda.is_available() else torch.device('cpu')
 
 # Затем загружаем данные (взяты отсюда https://download.pytorch.org/tutorial/hymenoptera_data.zip)
 
-batch_size = 10
+batch_size = 20
 
 # Так как сеть, которую мы планируем взять за базу натренирована на изображениях 
 # определенного размера, то наши изображения необходимо к ним преобразовать
@@ -71,7 +72,7 @@ model = torch.hub.load('pytorch/vision:v0.10.0', 'inception_v3', pretrained=True
 model.eval() #смотрим структуру этой сети
 # можно посмотреть структуру этой сети
 #print(net)
-
+ 
 # так как веса feature_extractor уже обучены, нам нужно их заморозить, чтобы 
 # быстрее научился наш классификатор
 #  для этого отключаем слоев (включая слои feature_extractor-а) градиенты
@@ -80,7 +81,7 @@ for param in model.parameters():
 
 # так как выходной слой Inception-V3 содержит 1000 нейронов (по количеству классов в ImageNet)
 # то нам нужно его заменить на слой, содержащий только 4 класса
-num_classes = 2
+num_classes = 4
 model.AuxLogits.fc = nn.Linear(768, num_classes)
 model.fc = nn.Linear(2048, num_classes)
 
@@ -89,7 +90,6 @@ model.fc = nn.Linear(2048, num_classes)
 #net.classifier = new_classifier # меняем классификатор сети
 
 model = model.to(device)
-
 # проверим эффективность новой сети
 correct_predictions = 0
 num_test_samples = len(test_dataset)
