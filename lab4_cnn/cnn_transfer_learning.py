@@ -80,8 +80,8 @@ for param in model.parameters():
     param.requires_grad = False
 
 # так как выходной слой Inception-V3 содержит 1000 нейронов (по количеству классов в ImageNet)
-# то нам нужно его заменить на слой, содержащий только 4 класса
-num_classes = 4
+# то нам нужно его заменить на слой, содержащий только 3 класса
+num_classes = 3
 model.AuxLogits.fc = nn.Linear(768, num_classes)
 model.fc = nn.Linear(2048, num_classes)
 
