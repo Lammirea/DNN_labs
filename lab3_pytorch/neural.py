@@ -97,15 +97,28 @@ class MLP:
     
 class MLPptorch(nn.Module):
     # как и раньше для инициализации на вход нужно подать размеры входного, скрытого и выходного слоев
-    #def __init__(self, in_size, hidden_size, out_size):
-    def __init__(self, hidden_size):
+    def __init__(self, in_size, hidden_size, out_size):
         nn.Module.__init__(self)
         # nn.Sequential - контейнер модулей
         # он последовательно объединяет и позволяет запускать их одновременно
-        self.layers = nn.Sequential(nn.Linear(3, hidden_size), # слой линейных сумматоров
+        self.layers = nn.Sequential(nn.Linear(in_size, hidden_size), # слой линейных сумматоров
                                     nn.ReLU(),                    # функция активации
-                                    nn.Linear(hidden_size, 3),
+                                    nn.Linear(hidden_size, hidden_size),
                                     nn.ReLU(),
+                                    nn.Linear(hidden_size, hidden_size),
+                                    nn.ReLU(),
+                                    nn.Linear(hidden_size, out_size),
+                                    nn.ReLU(),
+                                    
+                                    # nn.Sigmoid(),
+                                    # nn.Linear(hidden_size, hidden_size),
+                                    # nn.Sigmoid(),
+                                    # nn.Linear(hidden_size, hidden_size),
+                                    # nn.Sigmoid(),
+                                    # nn.Linear(hidden_size, out_size),
+                                    # nn.Sigmoid(),
+
+                                    
         )
 
     

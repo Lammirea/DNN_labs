@@ -39,13 +39,12 @@ Y_test = np.zeros((y.shape[0], np.unique(y).shape[0]))
 for i in np.unique(y):
     Y_test[:,i-1] = np.where(y == i, 1, 0).reshape(1,-1)
 
-#вместо 3 была цифра 1
-#inputSize = X.shape[1] # количество входных сигналов равно количеству признаков задачи 
+inputSize = X.shape[1] # количество входных сигналов равно количеству признаков задачи 
 hiddenSizes = 50 # задаем число нейронов скрытого слоя 
-#outputSize = Y.shape[1] if len(Y.shape) else 1 # количество выходных сигналов равно количеству классов задачи
+outputSize = Y.shape[1] if len(Y.shape) else 1 # количество выходных сигналов равно количеству классов задачи
 
-#net = MLPptorch(inputSize,hiddenSizes,outputSize)
-net = MLPptorch(hiddenSizes)
+net = MLPptorch(inputSize,hiddenSizes,outputSize)
+#net = MLPptorch(hiddenSizes) неверно
 lossFn = nn.MSELoss()
 
 optimizer = torch.optim.SGD(net.parameters(), lr=0.05)
