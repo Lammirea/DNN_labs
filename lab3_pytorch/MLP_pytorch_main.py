@@ -39,13 +39,13 @@ Y_test = np.zeros((y.shape[0], np.unique(y).shape[0]))
 for i in np.unique(y):
     Y_test[:,i-1] = np.where(y == i, 1, 0).reshape(1,-1)
 
-
-inputSize = X.shape[1] # количество входных сигналов равно количеству признаков задачи 
+#вместо 3 была цифра 1
+#inputSize = X.shape[1] # количество входных сигналов равно количеству признаков задачи 
 hiddenSizes = 50 # задаем число нейронов скрытого слоя 
-outputSize = Y.shape[1] if len(Y.shape) else 1 # количество выходных сигналов равно количеству классов задачи
+#outputSize = Y.shape[1] if len(Y.shape) else 1 # количество выходных сигналов равно количеству классов задачи
 
-
-net = MLPptorch(inputSize,hiddenSizes,outputSize)
+#net = MLPptorch(inputSize,hiddenSizes,outputSize)
+net = MLPptorch(hiddenSizes)
 lossFn = nn.MSELoss()
 
 optimizer = torch.optim.SGD(net.parameters(), lr=0.05)
@@ -56,7 +56,7 @@ optimizer = torch.optim.SGD(net.parameters(), lr=0.05)
 loss_ = train(torch.from_numpy(X.astype(np.float32)), 
               torch.from_numpy(Y.astype(np.float32)), 5000)
 
-# for name, param in net.named_parameters():
+#for name, param in net.named_parameters():
 #     print(name, param)
 
 pred = net.forward(torch.from_numpy(X.astype(np.float32))).detach().numpy()
@@ -66,4 +66,3 @@ print(err)
 pred = net.forward(torch.from_numpy(X_test.astype(np.float32))).detach().numpy()
 err = sum(abs((pred>0.5)-Y_test))
 print(err)
-
