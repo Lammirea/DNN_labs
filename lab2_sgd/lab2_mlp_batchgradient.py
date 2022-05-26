@@ -95,7 +95,9 @@ learning_rate = 0.01
 
 # обучаем сеть (фактически сеть это вектор весов weights)
 for i in range(iterations):
-    train(X, y, learning_rate)
+    for j in range(len(X[0])):
+        k = np.random.randint(0, len(X) -1)
+        train(X[k].reshape(1, 3), y[k].reshape(1, 1), learning_rate)
 
     if i % 10 == 0:
         print("На итерации: " + str(i) + ' || ' + "Средняя ошибка: " + str(np.mean(np.square(y - predict(X)))))
@@ -104,13 +106,12 @@ for i in range(iterations):
 pr = predict(X)
 print(sum(abs(y-(pr>0.5))))
 
-
 # считаем ошибку на всей выборке
 y = df.iloc[:, 4].values
 y = np.where(y == "Iris-setosa", 1, 0).reshape(-1,1) 
 X = df.iloc[:, [0, 2]].values
 X = np.concatenate([np.ones((len(X),1)), X], axis = 1)
 
+print(X.shape, y.shape)
 pr = predict(X)
 print(sum(abs(y-(pr>0.5))))
-
