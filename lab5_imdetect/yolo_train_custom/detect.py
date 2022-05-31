@@ -5,8 +5,8 @@ Created on Sat Apr 10 13:14:08 2021
 """
 
 from models import *
-from utils.utils import *
-from utils.datasets import *
+from utilses.utils import *
+from utilses.datasets import *
 
 import os
 import time
@@ -24,15 +24,14 @@ import matplotlib.patches as patches
 from matplotlib.ticker import NullLocator
 
 # задаем каталоги и файлы
-image_folder = "data\samples" # каталог с тестовыми изображениями
-model_config = "config/yolov3.cfg" # файл с конфигурацией детектор
-data_config = "config/coco.data"    # файл с описанием набора данных
-weights = "config/yolov3_9.weights" # файл весов
-class_path = "config/coco.names"         # файл с именами классов
-
+image_folder = "\animals\examples" # каталог с тестовыми изображениями
+model_config = "cfg/yolov3.cfg" # файл с конфигурацией детектор
+data_config = "cfg/animals.data"    # файл с описанием набора данных
+weights = "cfg/yolov3_7.weights" # файл весов
+class_path = "cfg/animals.names"         # файл с именами классов
 
 # определяем доступна ли CUDA
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
 
 # создаем каталог для сохранения результатов
 os.makedirs("data\output", exist_ok=True)
@@ -66,7 +65,7 @@ num_classes = int(data_config["classes"])
 
 
 # задаем тип тензора в зависимости от доступности CUDA
-Tensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+Tensor = torch.FloatTensor
 
 # ОБРАБОТКА ИЗОБРАЖЕНИЙ
 conf_thres = 0.99                      # порог для отбора ограничивающих рамок 

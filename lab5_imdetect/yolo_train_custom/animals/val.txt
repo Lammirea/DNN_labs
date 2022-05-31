@@ -1,0 +1,8 @@
+./data/animals/images/Arfur-Eveline-copyright-Monkey-World.jpg
+./data/animals/images/english_cocker_spaniel_142_jpg.rf.cd6214e0cfd27395fd527974bb082b4e.jpg
+./data/animals/images/Bengal_103_jpg.rf.6fc1e15891e15c765973d915273da8c1.jpg
+./data/animals/images/depositphotos_4798922-stock-photo-penguin-stone-coast-antarctica-mountains.jpg
+./data/animals/images/gorilla_g078aac36f_640.jpg
+./data/animals/images/samoyed_179_jpg.rf.5a0fd97de917a59cc197332b0fc64ba5.jpg
+./data/animals/images/elephant-symbolism6.jpg
+./data/animals/images/56ab65cc0dc6470785fac7f3bf12.jpg

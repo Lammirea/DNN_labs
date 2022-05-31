@@ -5,23 +5,30 @@ Created on Sat Apr 10 13:14:07 2021
 """
 
 from models import *
-from utils.utils import *
-from utils.datasets import *
-from utils.parse_config import *
+from utilses.utils import *
+from utilses.datasets import *
+from utilses.parse_config import *
 
 import os
 import torch
 from torch.autograd import Variable
 
 # задаем каталоги
-model_config ="config/yolov3.cfg"   # файл с конфигурацией детектора
-data_config = "config/coco.data"    # файл с описанием набора данных
-weights = "config/yolov3.weights"   # файл весов
-class_names ="config/coco.names"    # файл с именами классов
+# model_config ="config/yolov3_tiny.cfg"   # файл с конфигурацией детектора
+# data_config = "config/coco.data"    # файл с описанием набора данных
+# weights = "config/yolov3-tiny.weights"   # файл весов
+# class_names ="config/coco.names"    # файл с именами классов
+# checkpoint_dir = "checkpoints" # каталог для сохранения весов
+
+model_config ="cfg/yolov3.cfg"   # файл с конфигурацией детектора
+data_config = "cfg/animals.data"    # файл с описанием набора данных
+weights = "cfg/yolov3.weights"   # файл весов
+class_names ="cfg/animals.names"    # файл с именами классов
 checkpoint_dir = "checkpoints" # каталог для сохранения весов
 
 # определяем доступна ли CUDA
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # создаем каталог для промежуточного сохранения весов
 os.makedirs(checkpoint_dir, exist_ok=True)
@@ -46,17 +53,17 @@ if device.type == 'cuda':
 model.train()
 
 # Задаем гиперпараметры, часть считываем из файла конфигурации
-epochs = 2 # количество эпох
+epochs = 8 # количество эпох
 checkpoint_interval = 1 # количество эпох, через которое сохраняются веса
 
 # парсим файл конфигурации
 hyperparams = parse_model_config(model_config)[0]
-learning_rate = float(hyperparams["learning_rate"])
-momentum = float(hyperparams["momentum"])
-decay = float(hyperparams["decay"])
+learning_rate = float(hyperparams["learning_rate"]) #скорость регуляции
+momentum = float(hyperparams["momentum"]) 
+decay = float(hyperparams["decay"]) #коэффициент регуляризации весов
 
 # Создаем dataloader
-n_cpu = 1 # количество процессов для загрузи и преобразования данных
+n_cpu = 0 # количество процессов для загрузи и преобразования данных
 batch_size = int(hyperparams["batch"]) # размер батча
 
 dataloader = torch.utils.data.DataLoader(
@@ -64,7 +71,8 @@ dataloader = torch.utils.data.DataLoader(
 
 
 # задаем тип тензора в зависимости от доступности CUDA
-Tensor = torch.cuda.FloatTensor if device.type == 'cuda' else torch.FloatTensor
+Tensor = torch.FloatTensor
+#Tensor = torch.cuda.FloatTensor if device.type == 'cuda' else torch.FloatTensor
 
 # задаем тип и параметры оптимизатора
 optimizer = torch.optim.SGD(filter(lambda p: p.requires_grad, model.parameters()),
